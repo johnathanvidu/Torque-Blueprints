@@ -30,7 +30,7 @@ data "vsphere_datastore" "ds" {
 
 data "vsphere_host" "host" {
   name          = var.compute_cluster_host
-  datacenter_id = data.vsphere_datacenter.datacenter.id
+  datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_compute_cluster" "cluster" {
