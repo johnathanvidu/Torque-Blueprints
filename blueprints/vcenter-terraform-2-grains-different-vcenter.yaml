@@ -1,0 +1,75 @@
+spec_version: 2-preview
+
+description: test blueprint for deploying VMs on vcenter
+
+inputs:
+  datacenter_name_VCENTER2:
+    display-style: normal
+    type: string
+    description: description text
+    default: "Qualisystems"
+  datastore_name_VCENTER2:
+    display-style: normal
+    type: string
+    description: description text
+    default: "DATASTORE HOST1"
+  network_name_VCENTER2:
+    display-style: normal
+    type: string
+    description: description text
+    default: "VM Network"
+  virtual_machine_template_name_vcenter:
+    display-style: normal
+    type: string
+    description: description text
+    default: "photon-ova"
+  virtual_machine_template_name_VCENTER2:
+    display-style: normal
+    type: string
+    description: description text
+    default: "terraform_test"
+  virtual_machine_folder_VCENTER2:
+    display-style: normal
+    type: string
+    description: description text
+    default: "Tomer.C"
+
+outputs:
+  vm1_name:
+    value: '{{ .grains.vm1.outputs.virtual_machine_template_name_vcenter }}'
+
+grains:
+  vm1:
+    kind: terraform
+    spec:
+      inputs:
+        - virtual_machine_template_name: '{{ .inputs.virtual_machine_template_name_vcenter }}'
+        - virtual_machine_name: "vm1"
+
+      outputs:
+        - vsphere_virtual_machine_name
+
+      source:
+        store: vcenter-terraform-demo
+        path: github.com/QualiNext/terraform/vm-from-template
+      host:
+        cloud-account: private-cloud
+        compute-service: vcenter
+
+  vm2:
+#    depends-on: vm1
+    kind: terraform
+    spec:
+      inputs:
+        - datacenter_name: '{{ .inputs.datacenter_name_VCENTER2 }}'
+        - datastore_name: '{{ .inputs.datastore_name_VCENTER2 }}'
+        - network_name: '{{ .inputs.network_name_VCENTER2 }}'
+        - virtual_machine_template_name: '{{ .inputs.virtual_machine_template_name_VCENTER2 }}'
+        - virtual_machine_name: "vm2"
+        - virtual_machine_folder: '{{ .inputs.virtual_machine_folder_VCENTER2 }}'
+      source:
+        store: vcenter-terraform-demo
+        path: github.com/QualiNext/terraform/vm-from-template2
+      host:
+        cloud-account: private-cloud
+        compute-service: VCENTER2

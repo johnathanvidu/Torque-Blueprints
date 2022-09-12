@@ -1,0 +1,11 @@
+spec_version: 2-preview
+
+grains:
+  helloTF:
+    kind: terraform
+    spec:
+      source:
+        path: terraform/simple-tf-module
+        store: test-spec2-public
+      host:
+        compute-service: dev

@@ -1,0 +1,21 @@
+spec_version: 2-preview
+
+description: test blueprint for deploying VMs on vcenter
+
+inputs:
+  virtual_machine_template_name:
+    display-style: normal
+    type: string
+
+grains:
+  vm1:
+    kind: terraform
+    spec:
+      inputs:
+        - virtual_machine_template_name: '{{ .inputs.virtual_machine_template_name }}'
+      source:
+        store: autogen_repo_sandbox_5e946ce0
+        path: github.com/QualiNext/terraform/vm-from-template
+      host:
+        cloud-account: private-cloud
+        compute-service: vcenter

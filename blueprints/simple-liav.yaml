@@ -1,0 +1,18 @@
+spec_version: 2-preview
+
+description: description text
+
+
+grains:
+
+  helloHelm:
+    kind: helm
+    spec:
+      source:
+        path: bitnami/node
+        store: charts
+      host:
+        compute-service: dev
+      commands:
+        - dep up bitnami/node
+

@@ -1,0 +1,38 @@
+spec_version: 2
+
+description: check the tf tagging feature
+
+inputs:
+  bucket_name:
+  content:
+    default: this is a default content
+  compute_service_name:
+    default: "eks"
+
+grains:
+  s3-write:
+    kind: terraform
+    spec:
+      source:
+        path: github.com/QualiNext/terraform/s3-write
+      host:
+        name: '{{ inputs.compute_service_name }}'
+      tags:
+#         auto-tag: true
+#         disable-tags-for:
+#         - aws_s3_bucket_object
+      inputs:
+        - BUCKET_NAME: '{{ inputs.bucket_name }}'
+        - SANDBOX_ID: '{{ sandboxId }}'
+        - CONTENT: '{{ inputs.content }}'
+  
+  create-sg:
+    kind: terraform
+    spec:
+      source:
+        path: github.com/QualiNext/test-spec2-public.git//terraform/create-sg
+      host:
+        name: '{{ inputs.compute_service_name }}'
+        # service-account: '{{.inputs.tf-service-account}}'
+      inputs:
+        - SG_NAME: '{{ sandboxId }}-sg'

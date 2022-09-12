@@ -1,0 +1,80 @@
+spec_version: 2-preview
+description: Robotshot microservices application deployed on K8S with Helm and RDS deployed with TF
+
+# added
+inputs:
+  cloud_account_name:
+    type: string
+    default: "aws"
+    display-style: normal
+  compute_service_name:
+    type: string
+    default: "eks"
+    display-style: normal
+
+outputs:
+  WebsiteUrl:
+    # modified
+    # value: 'https://portal.qtorque.io/static/demo-quick-links/stans-robot-shop.html'
+    value: 'robotshop-{{ sandboxid | downcase }}.testquali.click:8080'
+
+
+grains:
+  mySqlDB:
+    kind: terraform
+    spec:
+      source:
+        path: github.com/QualiTorque/samples.git//terraform/rds
+      host:
+        # modified
+        cloud-account: '{{.inputs.cloud_account_name}}'
+        compute-service: '{{.inputs.compute_service_name}}'
+      inputs:
+        - sandbox_id: '{{ sandboxid | downcase }}'
+        - size: small 
+        - allocated_storage: 20
+        - db_name: demo_db
+        - engine_version: 8.0.26
+        - engine: MySQL
+        - username: adminuser
+        - vpc_id: vpc-02e3bca90b081cd0f
+        - region: us-east-1
+      outputs:
+        - hostname
+        - connection_string
+
+  s3Bucket:
+    kind: terraform
+    spec: 
+      source:
+        path: github.com/QualiTorque/samples.git//terraform/s3
+      host:
+        # modified
+        cloud-account: '{{.inputs.cloud_account_name}}'
+        compute-service: '{{.inputs.compute_service_name}}'
+      inputs:
+        - region: eu-west-1
+        - acl: public-read
+        - name: 'robotshop-s3-{{ sandboxid | downcase }}'
+      # added
+      outputs:
+        - s3_bucket_arn
+#       tags:
+#         auto-tag: false
+
+  robotShopMicroservices:
+    kind: helm
+    depends-on: mySqlDB, s3Bucket
+    spec:
+      source:
+        path: https://github.com/QualiTorque/samples.git//helm/robotshop
+      host:
+        # modified
+        cloud-account: '{{.inputs.cloud_account_name}}'
+        compute-service: '{{.inputs.compute_service_name}}'
+      inputs:
+        - hostname: 'robotshop-{{ sandboxid | downcase }}'
+        - version: 0.4.3
+        - connectionString: '{{ .grains.mySqlDB.outputs.connection_string }}'
+        - objectStore.s3BucketArn: '{{ .grains.s3Bucket.outputs.s3_bucket_arn }}'
+        - redis.storageClassName: gp2

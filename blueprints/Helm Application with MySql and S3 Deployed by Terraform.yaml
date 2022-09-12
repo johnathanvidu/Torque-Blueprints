@@ -1,0 +1,59 @@
+spec_version: 2-preview
+description: Robotshot microservices application deployed on K8S with Helm and RDS deployed with TF
+
+outputs:
+  WebsiteUrl:
+    value: 'robotshop-{{ sandboxid | downcase }}.testquali.click:8080'
+
+
+grains:
+  mySqlDB:
+    kind: terraform
+    spec:
+      source:
+        path: github.com/qualinext/test-spec2-public.git//terraform/rds
+      host:
+        cloud-account: aws-demo
+        compute-service: eks-demo
+      inputs:
+        - sandbox_id: '{{ sandboxid | downcase }}'
+        - size: small 
+        - allocated_storage: 20
+        - db_name: demo_db
+        - engine_version: 8.0.26
+        - engine: MySQL
+        - username: adminuser
+        - vpc_id: vpc-02e3bca90b081cd0f
+        - region: us-east-1
+      ouputs:
+        - hostname
+        - connection_string
+
+  s3Bucket:
+    kind: terraform
+    spec: 
+      source:
+        path: github.com/qualinext/test-spec2-public.git//terraform/s3
+      host:
+        cloud-account: aws-demo
+        compute-service: eks-demo
+      inputs:
+        - region: eu-west-1
+        - acl: public-read
+        - name: 'robotshop-s3-{{ sandboxid | downcase }}'
+
+  robotShopMicroservices:
+    kind: helm
+    depends-on: mySqlDB, s3Bucket
+    spec:
+      source:
+        path: https://github.com/qualinext/test-spec2-public.git//helm/robotshop
+      host:
+        cloud-account: aws-demo
+        compute-service: eks-demo
+      inputs:
+        - hostname: 'robotshop-{{ sandboxid | downcase }}'
+        - version: 0.4.3
+        - connectionString: '{{ .grains.mySqlDB.outputs.connection_string }}'
+        - objectStore.s3BucketArn: '{{ .grains.s3Bucket.outputs.s3_bucket_arn }}'
+        - redis.storageClassName: gp2

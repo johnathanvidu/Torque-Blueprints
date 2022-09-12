@@ -1,0 +1,32 @@
+spec_version: 2-preview
+
+description: write content to an existing s3 bucket
+
+inputs:
+  bucket_name:
+    type: string
+    display-style: normal
+  content:
+    type: string
+    default: this is a default content
+    display-style: normal
+  compute_service_name:
+    type: string
+    default: "eks"
+    display-style: normal
+
+grains:
+  s3-write:
+    kind: terraform
+    spec:
+      source:
+        # store: autogen_repo_sandbox_3416a76b
+        path: github.com/QualiNext/terraform/s3-write
+      host:
+        cloud-account: aws
+        compute-service: kubernetes
+      inputs:
+        - BUCKET_NAME: '{{.inputs.bucket_name}}'
+        - SANDBOX_ID: '{{sandboxId}}'
+        - CONTENT: '{{.inputs.content}}'
+    tf-version: 1.1.3

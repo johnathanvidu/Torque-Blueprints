@@ -1,0 +1,86 @@
+spec_version: 2-preview
+
+description: description text
+
+
+
+inputs:
+  input1:
+    type: string
+    display-style: normal
+    default: "default1"
+    description: "environemnt input 1"
+  input2:
+    type: string
+    display-style: normal
+    description: "environemnt input 2"    
+
+
+# values that starts with '{' for liquid template must be encosed with quotes so YAML won't consider them as dict
+outputs:
+  output1:
+    value: '{{sandboxId}}'
+  output2:
+    value: '{{.inputs.input1}}'
+  output3:
+    value: '{{.grains.helloTF.outputs.output1}}'
+    
+
+grains:
+  helloTF:
+    kind: terraform
+    spec:
+      source:
+        store: autogen_repo_sandbox_3416a76b
+        path: terraform/simple-tf-module
+      host:
+        cloud-account: aws
+        compute-service: eks
+      inputs:
+        - test_input1: env-input-{{.inputs.input1}}
+        - test_input2: env-id-{{sandboxId}}
+      ouputs:
+        - output1
+        - output2
+
+
+grains:
+  helloTF:
+    kind: terraform
+    spec:
+      source:
+        store: autogen_repo_sandbox_3416a76b
+        path: terraform/simple-tf-module
+      hooks:
+        before:
+          source:
+            path: https://raw.githubusercontent.com/QualiNext/test-spec2-public/master/scripts/tomerv_user_script.sh
+      host:
+        cloud-account: aws
+        compute-service: eks
+      inputs:
+        - test_input1: env-input-{{.inputs.input1}}
+        - test_input2: env-id-{{sandboxId}}
+      ouputs:
+        - output1
+        - output2
+        
+        
+        
+
+
+  helloHelm:
+    kind: helm
+    depends-on: helloTF
+    spec:
+      source:
+        path: https://github.com/bitnami/charts.git//bitnami/node
+      host:
+        cloud-account: aws
+        compute-service: eks
+      commands:
+        - "dep up bitnami/node"
+
+      inputs:
+        #- nameOverride: '{{.inputs.input1}}'
+        - nameOverride: '{{.grains.helloTF.outputs.output1}}'

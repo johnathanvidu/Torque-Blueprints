@@ -1,0 +1,83 @@
+spec_version: 2-preview
+
+description: test blueprint for deploying VMs on vcenter
+
+inputs:
+  virtual_machine_template_name:
+    display-style: normal
+    type: string
+  vlan_id:
+    display-style: normal
+    type: string
+
+outputs:
+  vm1_name:
+    value: '{{.grains.vm1.outputs.vsphere_virtual_machine_name}}'
+
+grains:
+  VLAN:
+    kind: terraform
+    spec:
+      inputs:
+        - virtual_machine_template_name: '{{ .inputs.virtual_machine_template_name }}'
+        - vlan_name: '{{ .inputs.vlan_id }}'
+        - private_cloud_login: "blah"
+        - private_cloud_password: "blah"
+        - private_cloud_host: "blah"
+        - datacenter_name: "Shells DataCenter"
+        - datastore_name: "Storage 2 (SSD, Raid 5)"
+        - compute_cluster_name: "Shells Cluster"
+        - network_name: "Local"
+        - virtual_machine_folder: "QualiSystems"
+
+      outputs:
+        - vsphere_vlan_name
+
+      source:
+        path: github.com/QualiSystems/torque-tf-blueprints.git//terraform/vm-from-template-wait-for-ip
+      host:
+        cloud-account: private-cloud
+        compute-service: yakir-vcenter
+  vm1:
+    depends-on: VLAN
+    kind: terraform
+    spec:
+      inputs:
+        - virtual_machine_template_name: '{{ .inputs.virtual_machine_template_name }}'
+        - virtual_machine_name: "vm1"
+        - vlan_name: '{{ .inputs.vlan_id }}'
+        - datacenter_name: "Shells DataCenter"
+        - datastore_name: "Storage 2 (SSD, Raid 5)"
+        - compute_cluster_name: "Shells Cluster"
+        - network_name: "Local"
+        - virtual_machine_folder: "QualiSystems"
+
+      outputs:
+        - vsphere_virtual_machine_name
+
+
+      source:
+        path: github.com/QualiSystems/torque-tf-blueprints.git//terraform/vm-from-template-wait-for-ip-no-creds
+      host:
+        cloud-account: private-cloud
+        compute-service: yakir-vcenter
+
+  vm2:
+    depends-on: VLAN
+    kind: terraform
+    spec:
+      inputs:
+        - virtual_machine_template_name: '{{ .inputs.virtual_machine_template_name }}'
+        - virtual_machine_name: "vm2"
+        - datacenter_name: "Shells DataCenter"
+        - datastore_name: "Storage 2 (SSD, Raid 5)"
+        - compute_cluster_name: "Shells Cluster"
+        - network_name: "Local"
+        - virtual_machine_folder: "QualiSystems"
+        
+
+      source:
+        path: github.com/QualiSystems/torque-tf-blueprints.git//terraform/vm-from-template-wait-for-ip-no-creds
+      host:
+        cloud-account: private-cloud
+        compute-service: yakir-vcenter

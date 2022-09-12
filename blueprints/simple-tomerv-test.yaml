@@ -1,0 +1,56 @@
+spec_version: 2-preview
+
+description: description text
+
+
+
+inputs:
+  tf-service-account:
+    type: string
+    display-style: normal
+    default: "test-terraform-sa"
+    description: "custom service account for terraform"
+  sg-name:
+    type: string
+    display-style: normal
+    default: "my-simple-sg"
+    description: "the name of the security group to create"
+
+
+grains:
+  MyTF:
+    kind: terraform
+    spec:
+      source:
+        path: github.com/QualiNext/test-spec2-public.git//terraform/create-sg
+        #path: github.com/QualiNext/test-spec2-public.git//terraform/simple-tf-module
+      hooks:
+        before:
+          source:
+            path: github.com/QualiNext/test-spec2-public.git//scripts/tomerv_user_script.sh
+          arguments_line: "arg1"
+      host:
+        cloud-account: aws
+        compute-service: eks
+        service-account: '{{.inputs.tf-service-account}}'
+      inputs:
+        - SG_NAME: '{{.inputs.sg-name}}'
+
+
+#   helloHelm:
+#     kind: helm
+#     #depends-on: app1(,another grain, another grain)
+#     spec:
+#       source:
+#         path: https://github.com/bitnami/charts.git//bitnami/node
+#       host:
+#         cloud-account: aws
+#         compute-service: eks
+#         service-account: test-admin-sa
+#         # region: eu-west-1
+#         # os: <os_moniker>
+#       commands:
+#         - "dep up bitnami/node"
+
+#       # inputs:
+#       #   - someInput: .grains.app1.outputs.output-name
