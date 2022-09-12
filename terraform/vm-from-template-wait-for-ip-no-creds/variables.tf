@@ -38,7 +38,7 @@ variable "wait_for_net" {
 variable "networks" {
   type        = string
   description = "Provided interfaces"
-  default = "Local"
+  default = "LAB/Do.(85)"
 }
 
 variable "virtual_machine_template_name" {
@@ -52,7 +52,7 @@ variable "virtual_machine_name" {
 
 variable "virtual_machine_folder" {
   type = string
-  default = "QualiSystems"
+  default = "Do-Reservations-ESXI-01"
 }
 
 variable "linked_clone" {
