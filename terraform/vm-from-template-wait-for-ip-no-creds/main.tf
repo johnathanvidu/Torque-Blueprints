@@ -69,11 +69,12 @@ resource "vsphere_virtual_machine" "vm" {
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
     linked_clone = var.linked_clone
-    customize {
+    /* customize {
       linux_options {
         host_name = "TorqueTest"
+        domain = "quali.lab"
       }
-    }
+    } */
   }
   dynamic "disk" {
     for_each = data.vsphere_virtual_machine.template.disks
