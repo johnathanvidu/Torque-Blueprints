@@ -12,17 +12,22 @@ variable "password" {
 
 variable "datacenter_name" {
   type = string
-  default = "Sandbox vCenter"
+  default = "IL Datacenter"
 }
 
 variable "datastore_name" {
   type = string
-  default = "SB-DS2"
+  default = "vmfs02-Do-Reservation"
 }
 
 variable "compute_cluster_name" {
   type = string
-  default = "Sandbox Cluster"
+  default = "IL Main Cluster"
+}
+
+variable "compute_cluster_host" {
+  type = string
+  default = "esxi-01.qualisystems.local"
 }
 
 variable "wait_for_ip" {

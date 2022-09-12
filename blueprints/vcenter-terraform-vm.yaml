@@ -28,7 +28,7 @@ grains:
         - virtual_machine_name: "TorqueTestVM-{{ sandboxid }}"
         - datacenter_name: "IL Datacenter"
         - datastore_name: "vmfs02-Do-Reservation"
-        - compute_cluster_name: "IL Main Cluster\esxi-01.qualisystems.local"
+        # - compute_cluster_name: "IL Main Cluster\esxi-01.qualisystems.local"
         - networks: '{{ .inputs.networks }}'
 
       outputs:
