@@ -53,6 +53,7 @@ resource "vsphere_virtual_machine" "vm" {
   name             = var.virtual_machine_name
   datastore_id     = data.vsphere_datastore.ds.id
   host_system_id   = data.vsphere_host.host.id
+  resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   guest_id = data.vsphere_virtual_machine.template.guest_id
   folder = var.virtual_machine_folder
   wait_for_guest_ip_timeout = var.wait_for_ip
