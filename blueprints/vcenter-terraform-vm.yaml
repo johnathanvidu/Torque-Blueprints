@@ -11,7 +11,7 @@ inputs:
   networks:
     display-style: normal
     type: string
-    default: Local
+    default: "LAB/Do.(85)"
     description: there is no sanctuary
   wait_for_ip:
     type: string
