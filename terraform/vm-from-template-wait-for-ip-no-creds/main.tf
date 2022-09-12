@@ -36,7 +36,6 @@ data "vsphere_host" "host" {
 data "vsphere_compute_cluster" "cluster" {
   name          = var.compute_cluster_name
   datacenter_id = data.vsphere_datacenter.dc.id
-  host_system_ids = [data.vsphere_host.host.*.id]
 }
 
 data "vsphere_network" "network" {
@@ -53,7 +52,7 @@ data "vsphere_virtual_machine" "template" {
 resource "vsphere_virtual_machine" "vm" {
   name             = var.virtual_machine_name
   datastore_id     = data.vsphere_datastore.ds.id
-  resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
+  host_system_id   = data.vsphere_host.host.id
   guest_id = data.vsphere_virtual_machine.template.guest_id
   folder = var.virtual_machine_folder
   wait_for_guest_ip_timeout = var.wait_for_ip
@@ -69,6 +68,10 @@ resource "vsphere_virtual_machine" "vm" {
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
     linked_clone = var.linked_clone
+    customize {
+      linux_options {
+        host_name = "TorqueTest"
+      }
   }
   dynamic "disk" {
     for_each = data.vsphere_virtual_machine.template.disks
