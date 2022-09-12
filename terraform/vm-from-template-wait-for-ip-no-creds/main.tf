@@ -72,6 +72,7 @@ resource "vsphere_virtual_machine" "vm" {
       linux_options {
         host_name = "TorqueTest"
       }
+    }
   }
   dynamic "disk" {
     for_each = data.vsphere_virtual_machine.template.disks
