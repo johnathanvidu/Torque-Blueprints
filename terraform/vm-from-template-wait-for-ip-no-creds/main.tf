@@ -17,6 +17,10 @@ interface_map = {
    for i, val in local.interfaces:
 	i => val
   }
+  hosts = [
+    for iface in split("\", var.compute_cluster_name):
+    trimspace(iface)
+  ]
 }
 
 data "vsphere_datacenter" "dc" {
@@ -29,8 +33,9 @@ data "vsphere_datastore" "ds" {
 }
 
 data "vsphere_compute_cluster" "cluster" {
-  name          = var.compute_cluster_name
+  name          = element(hosts, 0)
   datacenter_id = data.vsphere_datacenter.dc.id
+  hosts         = element(hosts, 1)
 }
 
 data "vsphere_network" "network" {
