@@ -60,6 +60,7 @@ resource "vsphere_virtual_machine" "vm" {
   folder = var.virtual_machine_folder
   wait_for_guest_ip_timeout = var.wait_for_ip
   wait_for_guest_net_timeout = var.wait_for_net
+  scsi_type = data.vsphere_virtual_machine.template.scsi_type
   
   dynamic "network_interface" {
       for_each = local.interface_map
