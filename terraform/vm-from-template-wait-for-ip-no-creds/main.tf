@@ -55,6 +55,8 @@ resource "vsphere_virtual_machine" "vm" {
   host_system_id   = data.vsphere_host.host.id
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   guest_id = data.vsphere_virtual_machine.template.guest_id
+  num_cpus = data.vsphere_virtual_machine.template.num_cpus
+  memory = data.vsphere_virtual_machine.template.memory
   folder = var.virtual_machine_folder
   wait_for_guest_ip_timeout = var.wait_for_ip
   wait_for_guest_net_timeout = var.wait_for_net
