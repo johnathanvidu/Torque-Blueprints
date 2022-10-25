@@ -7,12 +7,7 @@ inputs:
     display-style: normal
     type: string
     default: Do-Template-Centos
-    description: there is no sanctuary
-  networks:
-    display-style: normal
-    type: string
-    default: "LAB/Do.(85)"
-    description: there is no sanctuary
+    description: there is no sanctuary  
   wait_for_ip:
     type: string
     default: 120
@@ -29,7 +24,7 @@ grains:
         - datacenter_name: "IL Datacenter"
         - datastore_name: "vmfs02-Do-Reservation"
         # - compute_cluster_name: "IL Main Cluster\esxi-01.qualisystems.local"
-        - networks: '{{ .inputs.networks }}'
+        - networks: "LAB/Do.(85)"
 
       outputs:
         - vsphere_virtual_machine_name
