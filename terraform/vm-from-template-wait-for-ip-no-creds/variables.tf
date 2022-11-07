@@ -79,3 +79,11 @@ variable "qualix_ip" {
   type = string
   default = "192.168.42.238"
 }
+
+variable "VM_username" {
+  type = string
+}
+
+variable "VM_password" {
+  type = string
+}
