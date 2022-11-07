@@ -91,3 +91,13 @@ resource "vsphere_virtual_machine" "vm" {
   }
 }
 
+module "vm_link" {
+  source            = "./qualix_link_maker"
+  qualix_ip         = var.qualix_ip
+  protocol          = var.protocol
+  connection_port   = var.connection_port
+  target_ip_address = vsphere_virtual_machine.vm.default_ip_address
+  target_username   = var.username
+  target_password   = var.passowrd
+}
+

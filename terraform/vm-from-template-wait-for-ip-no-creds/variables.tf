@@ -64,3 +64,18 @@ variable "linked_clone" {
   type = bool
   default = false
 }
+
+variable "connection_port" {
+  type = string
+  default = "3389"
+}
+
+variable "connection_protocol" {
+  type = string
+  default = "rdp"
+}
+
+variable "qualix_ip" {
+  type = string
+  default = "192.168.42.238"
+}
