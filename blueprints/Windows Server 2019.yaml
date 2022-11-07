@@ -1,9 +1,21 @@
-spec_version: 2-preview
+spec_version: 2
 
 description: test blueprint for deploying VMs on vcenter
+outputs:
+  qualix_link:
+    value: '{{ .grains.Windows_Server_2019.outputs.qualix_link }}'
+    kind: link
+  vsphere_virtual_machine_default_ip_address:
+    value: '{{ .grains.Windows_Server_2019.outputs.vsphere_virtual_machine_default_ip_address }}'
+  vsphere_virtual_machine_name:
+    value: '{{ .grains.Windows_Server_2019.outputs.vsphere_virtual_machine_name }}'
+  OS Login:
+    value: Administrator
+  Os Password:
+    value: Password1
 
 grains:
-  vm1:
+  Windows_Server_2019:
     kind: terraform
     spec:
       inputs:
@@ -15,11 +27,14 @@ grains:
         - networks: "LAB/Do.(85)"
         - wait_for_ip: 120
         - wait_for_net: 120
+        - username: Administrator
+        - password: Password1
+        - qualix_ip: '{{ .params.default_qualix_ip }}'
 
       outputs:
-        - vsphere_virtual_machine_name
-
-
+      - qualix_link
+      - vsphere_virtual_machine_default_ip_address
+      - vsphere_virtual_machine_name
       source:
         store: Torque-Assets
         path: terraform/vm-from-template-wait-for-ip-no-creds
