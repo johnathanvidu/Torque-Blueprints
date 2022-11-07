@@ -7,28 +7,28 @@ provider "vsphere" {
   allow_unverified_ssl = true
 }
 
-data "vsphere_datacenter" "dc" {
+data "vsphere_datacenter" "datacenter" {
   name = var.datacenter_name
 }
 
 data "vsphere_datastore" "ds" {
   name          = var.datastore_name
-  datacenter_id = data.vsphere_datacenter.dc.id
+  datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
 data "vsphere_compute_cluster" "cluster" {
   name          = var.compute_cluster_name
-  datacenter_id = data.vsphere_datacenter.dc.id
+  datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
 data "vsphere_network" "network" {
   name          = var.network_name
-  datacenter_id = data.vsphere_datacenter.dc.id
+  datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
 data "vsphere_virtual_machine" "template" {
   name = var.virtual_machine_template_name
-  datacenter_id = data.vsphere_datacenter.dc.id
+  datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
 resource "vsphere_virtual_machine" "vm" {
