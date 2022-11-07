@@ -11,7 +11,7 @@ terraform {
   }
 }
 
-//provider "time" {}
+provider "time" {}
 
 provider "random" {}
 

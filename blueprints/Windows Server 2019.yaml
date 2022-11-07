@@ -27,8 +27,8 @@ grains:
         - networks: "LAB/Do.(85)"
         - wait_for_ip: 120
         - wait_for_net: 120
-        - username: Administrator
-        - password: Password1
+        - VM_username: Administrator
+        - VM_password: Password1
         - qualix_ip: '{{ .params.default_qualix_ip }}'
 
       outputs:

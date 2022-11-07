@@ -97,7 +97,7 @@ module "vm_link" {
   protocol          = var.connection_protocol
   connection_port   = var.connection_port
   target_ip_address = vsphere_virtual_machine.vm.default_ip_address
-  target_username   = var.username
-  target_password   = var.password
+  target_username   = var.VM_username
+  target_password   = var.VM_password
 }
 
