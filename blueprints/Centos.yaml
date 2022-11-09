@@ -29,6 +29,8 @@ grains:
         - VM_username: Administrator
         - VM_password: Password1
         - qualix_ip: '{{ .params.default_qualix_ip }}'
+        - connection_protocol: ssh
+        - connection_port: 22
 
       outputs:
       - qualix_link
