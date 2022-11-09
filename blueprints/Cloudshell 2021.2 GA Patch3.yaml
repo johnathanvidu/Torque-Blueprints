@@ -3,22 +3,23 @@ spec_version: 2
 description: test blueprint for deploying VMs on vcenter
 outputs:
   qualix_link:
-    value: '{{ .grains.Centos.outputs.qualix_link }}'
+    value: '{{ .grains.Windows_Server_2019.outputs.qualix_link }}'
     kind: link
   vsphere_virtual_machine_default_ip_address:
-    value: '{{ .grains.Centos.outputs.vsphere_virtual_machine_default_ip_address }}'
+    value: '{{ .grains.Windows_Server_2019.outputs.vsphere_virtual_machine_default_ip_address }}'
   vsphere_virtual_machine_name:
-    value: '{{ .grains.Centos.outputs.vsphere_virtual_machine_name }}'
+    value: '{{ .grains.Windows_Server_2019.outputs.vsphere_virtual_machine_name }}'
   OS Login:
-    value: root
+    value: Administrator
   Os Password:
-    value: qs1234
+    value: Password1
+
 grains:
-  Centos:
+  Windows_Server_2019:
     kind: terraform
     spec:
       inputs:
-        - virtual_machine_template_name: Do-Template-Centos
+        - virtual_machine_template_name: Do-Template-Cloudshell2021.2-GA-Patch3
         - virtual_machine_name: "TorqueTestVM-{{ sandboxid }}"
         - datacenter_name: "IL Datacenter"
         - datastore_name: "vmfs02-Do-Reservation"
@@ -26,11 +27,9 @@ grains:
         - networks: "LAB/Do.(85)"
         - wait_for_ip: 120
         - wait_for_net: 120
-        - VM_username: root
-        - VM_password: qs1234
+        - VM_username: Administrator
+        - VM_password: Password1
         - qualix_ip: '{{ .params.default_qualix_ip }}'
-        - connection_protocol: ssh
-        - connection_port: 22
 
       outputs:
       - qualix_link
