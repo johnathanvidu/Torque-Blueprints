@@ -3,19 +3,19 @@ spec_version: 2
 description: test blueprint for deploying VMs on vcenter
 outputs:
   qualix_link:
-    value: '{{ .grains.Windows_Server_2019.outputs.qualix_link }}'
+    value: '{{ .grains.SisenseIL.outputs.qualix_link }}'
     kind: link
   vsphere_virtual_machine_default_ip_address:
-    value: '{{ .grains.Windows_Server_2019.outputs.vsphere_virtual_machine_default_ip_address }}'
+    value: '{{ .grains.SisenseIL.outputs.vsphere_virtual_machine_default_ip_address }}'
   vsphere_virtual_machine_name:
-    value: '{{ .grains.Windows_Server_2019.outputs.vsphere_virtual_machine_name }}'
+    value: '{{ .grains.SisenseIL.outputs.vsphere_virtual_machine_name }}'
   OS Login:
     value: Administrator
   Os Password:
     value: Password1
 
 grains:
-  Windows_Server_2019:
+  SisenseIL:
     kind: terraform
     spec:
       inputs:
