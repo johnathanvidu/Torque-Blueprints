@@ -13,7 +13,7 @@ terraform {
 
 #provider "time" {}
 
-provider "random" {}
+#provider "random" {}
 
 resource "random_uuid" "resource_uuid" {}
 
