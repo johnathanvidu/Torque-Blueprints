@@ -9,6 +9,9 @@ outputs:
     value: '{{ .grains.Centos.outputs.vsphere_virtual_machine_default_ip_address }}'
   vsphere_virtual_machine_name:
     value: '{{ .grains.Centos.outputs.vsphere_virtual_machine_name }}'
+  httpd_test_page:
+    value: "http://{{ .grains.Centos.outputs.vsphere_virtual_machine_default_ip_address }}"
+    kind: link
   OS Login:
     value: root
   Os Password:
