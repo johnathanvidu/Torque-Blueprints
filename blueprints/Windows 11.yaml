@@ -20,7 +20,7 @@ grains:
     spec:
       inputs:
         - virtual_machine_template_name: Do-Template-Windows-11
-        - virtual_machine_name: "TorqueTestVM-{{ sandboxid }}"
+        - virtual_machine_name: "DO-Torque-VM-{{ sandboxid }}"
         - datacenter_name: "IL Datacenter"
         - datastore_name: "vmfs02-Do-Reservation"
         # - compute_cluster_name: "IL Main Cluster\esxi-01.qualisystems.local"
