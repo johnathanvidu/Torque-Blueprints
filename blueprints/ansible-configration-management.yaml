@@ -45,13 +45,15 @@ grains:
         compute-service: vcenter3
 
   apache_install:
-    depends-on: virtual_machine
+    depends-on: Centos
     kind: ansible
-    spec: 
+    spec:
       source:
-        path: https://github.com/QualiNext/test-spec2-public//ansible/install_httpd.yaml
+        store: Torque-Assets
+        path: ansible/install_httpd.yaml
       host:
-        name: docker-agent
+        cloud-account: private-cloud
+        compute-service: vcenter3
       inventory-file:
         all:
           hosts:
