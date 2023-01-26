@@ -10,7 +10,7 @@ outputs:
   VM Name:
     value: '{{ .grains.Windows_11.outputs.vsphere_virtual_machine_name }}'
   OS Login:
-    value: Administrator
+    value: Quali
   Os Password:
     value: Password1
 
@@ -32,8 +32,8 @@ grains:
         - networks: LAB/Do.(85)
         - wait_for_ip: 120
         - wait_for_net: 120
-        - VM_username: Administrator
-        - VM_password: Password1
+        - VM_username: '{{ .inputs.["OS Login"] }}'
+        - VM_password: '{{ .inputs.["OS Password"] }}'
         - qualix_ip: '{{ .params.default_qualix_ip }}'
       outputs:
       - qualix_link
