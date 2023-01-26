@@ -11,7 +11,7 @@ outputs:
     value: '{{ .grains.Windows_11.outputs.vsphere_virtual_machine_name }}'
   OS Login:
     value: Quali
-  Os Password:
+  OS Password:
     value: Password1
 
 grains:
