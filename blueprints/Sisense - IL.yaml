@@ -1,13 +1,13 @@
 spec_version: 2
 
-description: test blueprint for deploying VMs on vcenter
+description: VM with SiSense BI pre-installed
 outputs:
-  qualix_link:
+  QualiX RDP Link:
     value: '{{ .grains.SisenseIL.outputs.qualix_link }}'
     kind: link
-  vsphere_virtual_machine_default_ip_address:
+  VM IP:
     value: '{{ .grains.SisenseIL.outputs.vsphere_virtual_machine_default_ip_address }}'
-  vsphere_virtual_machine_name:
+  VM Name:
     value: '{{ .grains.SisenseIL.outputs.vsphere_virtual_machine_name }}'
   OS Login:
     value: Administrator
@@ -18,26 +18,24 @@ grains:
   SisenseIL:
     kind: terraform
     spec:
+      source:
+        store: Torque-Assets
+        path: terraform/vm-from-template-wait-for-ip-no-creds
+      host:
+        name: vcenter3
       inputs:
         - virtual_machine_template_name: Do-Template-Sisense
-        - virtual_machine_name: "DO-Torque-VM-{{ sandboxid }}"
-        - datacenter_name: "IL Datacenter"
-        - datastore_name: "vmfs02-Do-Reservation"
+        - virtual_machine_name: 'DO-Torque-VM-{{ sandboxid }}'
+        - datacenter_name: IL Datacenter
+        - datastore_name: vmfs02-Do-Reservation
         # - compute_cluster_name: "IL Main Cluster\esxi-01.qualisystems.local"
-        - networks: "LAB/Do.(85)"
+        - networks: LAB/Do.(85)
         - wait_for_ip: 120
         - wait_for_net: 120
         - VM_username: Administrator
         - VM_password: Password1
         - qualix_ip: '{{ .params.default_qualix_ip }}'
-
       outputs:
       - qualix_link
       - vsphere_virtual_machine_default_ip_address
       - vsphere_virtual_machine_name
-      source:
-        store: Torque-Assets
-        path: terraform/vm-from-template-wait-for-ip-no-creds
-      host:
-        cloud-account: private-cloud
-        compute-service: vcenter3
