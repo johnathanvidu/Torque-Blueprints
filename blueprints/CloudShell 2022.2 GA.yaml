@@ -13,7 +13,7 @@ outputs:
   Os Password:
     value: Password1
 grains:
-  CloudShell 2022.2 GA:
+  CloudShell 2022-2 GA:
     kind: terraform
     spec:
       source:
