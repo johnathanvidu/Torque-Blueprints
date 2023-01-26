@@ -2,12 +2,12 @@ spec_version: 2
 description: CloudShell 2022.2GA pre-installed VM on Texas vCenter
 outputs:
   QualiX RDP Link:
-    value: '{{ .grains.CloudShell_2022.2_GA.outputs.qualix_link }}'
+    value: '{{ .grains.["CloudShell_2022.2_GA"].outputs.qualix_link }}'
     kind: link
   VM IP:
-    value: '{{ .grains.CloudShell_2022.2_GA.outputs.vsphere_virtual_machine_default_ip_address }}'
+    value: '{{ .grains.["CloudShell_2022.2_GA"].outputs.vsphere_virtual_machine_default_ip_address }}'
   VM Name:
-    value: '{{ .grains.CloudShell_2022.2_GA.outputs.vsphere_virtual_machine_name }}'
+    value: '{{ .grains.["CloudShell_2022.2_GA"].outputs.vsphere_virtual_machine_name }}'
   OS Login:
     value: Administrator
   Os Password:
