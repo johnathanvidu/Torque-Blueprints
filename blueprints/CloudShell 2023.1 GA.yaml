@@ -1,21 +1,19 @@
 spec_version: 2
-
-description: CloudShell 2021.2P3 pre-installed VM on vCenter
+description: CloudShell 2023.1GA pre-installed VM on vCenter
 outputs:
   QualiX RDP Link:
-    value: '{{ .grains.["CloudShell_2021.2P3_GA"].outputs.qualix_link }}'
+    value: '{{ .grains.["CloudShell_2023.1_GA"].outputs.qualix_link }}'
     kind: link
   VM IP:
-    value: '{{ .grains.["CloudShell_2021.2P3_GA"].outputs.vsphere_virtual_machine_default_ip_address }}'
+    value: '{{ .grains.["CloudShell_2023.1_GA"].outputs.vsphere_virtual_machine_default_ip_address }}'
   VM Name:
-    value: '{{ .grains.["CloudShell_2021.2P3_GA"].outputs.vsphere_virtual_machine_name }}'
+    value: '{{ .grains.["CloudShell_2023.1_GA"].outputs.vsphere_virtual_machine_name }}'
   OS Login:
     value: Administrator
   Os Password:
     value: Password1
-
 grains:
-  CloudShell_2021.2P3_GA:
+  CloudShell_2023.1_GA:
     kind: terraform
     spec:
       source:
@@ -24,12 +22,12 @@ grains:
       agent:
         name: vcenter3
       inputs:
-        - virtual_machine_template_name: Do-Template-Cloudshell2021.2-GA-Patch3
+        - virtual_machine_template_name: Do-Template-Cloudshell2023.1-GA
         - virtual_machine_name: 'DO-Torque-VM-{{ sandboxid }}'
         - datacenter_name: IL Datacenter
         - datastore_name: vmfs02-Do-Reservation
         # - compute_cluster_name: "IL Main Cluster\esxi-01.qualisystems.local"
-        - networks: LAB/Do.(85)
+        - networks: "LAB/Do.(85)"
         - wait_for_ip: 120
         - wait_for_net: 120
         - VM_username: Administrator
