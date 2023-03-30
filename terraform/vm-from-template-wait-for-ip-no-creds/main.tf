@@ -49,8 +49,12 @@ data "vsphere_virtual_machine" "template" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
+
+resource "random_uuid" "env-guid" {
+}
+
 resource "vsphere_virtual_machine" "vm" {
-  name             = var.virtual_machine_name
+  name             = "${var.virtual_machine_name}-${random_uuid.env-guid.result}"
   datastore_id     = data.vsphere_datastore.ds.id
   host_system_id   = data.vsphere_host.host.id
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
@@ -93,14 +97,6 @@ resource "vsphere_virtual_machine" "vm" {
       eagerly_scrub    = false
     }
   }
-}
-
-resource "random_uuid" "test" {
-}
-
-resource "azurerm_resource_group" "test1" {
-  name     = "${random_uuid.test.result}-rg"
-  location = "Central US"
 }
 
 module "vm_link" {
