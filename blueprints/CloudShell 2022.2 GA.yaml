@@ -23,7 +23,7 @@ grains:
         name: vcenter3
       inputs:
         - virtual_machine_template_name: Do-Template-Cloudshell2022.2-GA
-        - virtual_machine_name: 'DO-Torque-VM-{{ sandboxid }}'
+        - virtual_machine_name: 'DO-Torque-VM'
         - datacenter_name: IL Datacenter
         - datastore_name: vmfs02-Do-Reservation
         # - compute_cluster_name: "IL Main Cluster\esxi-01.qualisystems.local"
@@ -32,7 +32,8 @@ grains:
         - wait_for_net: 120
         - VM_username: Administrator
         - VM_password: Password1
-        - qualix_ip: '{{ .params.default_qualix_ip }}'
+        # - qualix_ip: '{{ .params.default_qualix_ip }}'
+        - qualix_ip: '192.168.42.238'
       outputs:
       - qualix_link
       - vsphere_virtual_machine_default_ip_address
