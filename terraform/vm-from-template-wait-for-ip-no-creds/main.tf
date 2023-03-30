@@ -98,7 +98,7 @@ resource "vsphere_virtual_machine" "vm" {
 resource "random_uuid" "test" {
 }
 
-resource "azurerm_resource_group" "test" {
+resource "azurerm_resource_group" "test1" {
   name     = "${random_uuid.test.result}-rg"
   location = "Central US"
 }
