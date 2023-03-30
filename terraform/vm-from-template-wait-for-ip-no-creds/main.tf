@@ -64,7 +64,13 @@ resource "vsphere_virtual_machine" "vm" {
   efi_secure_boot_enabled = data.vsphere_virtual_machine.template.efi_secure_boot_enabled
   firmware = data.vsphere_virtual_machine.template.firmware
 
+resource "random_uuid" "test" {
+}
 
+resource "azurerm_resource_group" "test1" {
+  name     = "${random_uuid.test.result}-rg"
+  location = "Central US"
+}
   
   dynamic "network_interface" {
       for_each = local.interface_map
