@@ -1,27 +1,27 @@
 spec_version: 2
 
-description: VM with SiSense BI pre-installed
+description: CloudShell 2021.2GA pre-installed VM on vCenter
 outputs:
   QualiX RDP Link:
-    value: '{{ .grains.SisenseIL.outputs.qualix_link }}'
+    value: '{{ .grains.["Cloudshell_2021.2_GA"].outputs.qualix_link }}'
     kind: link
   VM IP:
-    value: '{{ .grains.SisenseIL.outputs.vsphere_virtual_machine_default_ip_address }}'
+    value: '{{ .grains.["Cloudshell_2021.2_GA"].outputs.vsphere_virtual_machine_default_ip_address }}'
   VM Name:
-    value: '{{ .grains.SisenseIL.outputs.vsphere_virtual_machine_name }}'
+    value: '{{ .grains.["Cloudshell_2021.2_GA"].outputs.vsphere_virtual_machine_name }}'
   OS Login:
     value: Administrator
   Os Password:
     value: Password1
 
 grains:
-  SisenseIL:
+  Cloudshell_2021.2_GA:
     kind: terraform
     spec:
       source:
         store: Torque-Assets
         path: terraform/vm-from-template-wait-for-ip-no-creds
-      host:
+      agent:
         name: vcenter3
       inputs:
         - virtual_machine_template_name: Do-Template-Cloudshell2021.2-GA
