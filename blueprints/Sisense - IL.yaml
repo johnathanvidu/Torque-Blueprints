@@ -21,7 +21,7 @@ grains:
       source:
         store: Torque-Assets
         path: terraform/vm-from-template-wait-for-ip-no-creds
-      host:
+      agent:
         name: vcenter3
       inputs:
         - virtual_machine_template_name: Do-Template-Sisense
