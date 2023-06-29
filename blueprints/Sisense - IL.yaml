@@ -35,9 +35,7 @@ grains:
         - VM_username: Administrator
         - VM_password: Password1
         - qualix_ip: '{{ .params.default_qualix_ip }}'
-        # - qualix_ip: '192.168.42.238'
-      tags:
-        auto-tag: false  
+        # - qualix_ip: '192.168.42.238'  
       outputs:
       - qualix_link
       - vsphere_virtual_machine_default_ip_address
