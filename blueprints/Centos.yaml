@@ -37,6 +37,8 @@ grains:
         # - qualix_ip: '192.168.42.238'
         - connection_protocol: ssh
         - connection_port: 22
+      tags:
+        auto-tag: false  
       outputs:
       - qualix_link
       - vsphere_virtual_machine_default_ip_address
