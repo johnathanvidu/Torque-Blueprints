@@ -1,5 +1,5 @@
 spec_version: 2
-description: CloudShell 2023.2GA pre-installed VM on vCenter
+description: CloudShell 2023.22GA pre-installed VM on vCenter
 outputs:
   QualiX RDP Link:
     value: '{{ .grains.["CloudShell_2023.2_GA"].outputs.qualix_link }}'
