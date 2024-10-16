@@ -1,0 +1,42 @@
+spec_version: 2
+description: CloudShell 2024.1GA pre-installed VM on vCenter
+outputs:
+  QualiX RDP Link:
+    value: '{{ .grains.["CloudShell_2024.1_GA"].outputs.qualix_link }}'
+    kind: link
+  VM IP:
+    value: '{{ .grains.["CloudShell_2024.1_GA"].outputs.vsphere_virtual_machine_default_ip_address }}'
+  VM Name:
+    value: '{{ .grains.["CloudShell_2024.1_GA"].outputs.vsphere_virtual_machine_name }}'
+  OS Login:
+    value: Administrator
+  Os Password:
+    value: Password1
+grains:
+  CloudShell_2024.1_GA:
+    kind: terraform
+    spec:
+      source:
+        store: Torque-Assets
+        path: terraform/vm-from-template-wait-for-ip-no-creds
+      agent:
+        name: vcenter3
+      inputs:
+        - virtual_machine_template_name: Do-Template-Cloudshell2024.1-GA
+        - virtual_machine_name: "TorqueTestVM-{{ sandboxid }}"
+        - datacenter_name: IL Datacenter
+        - datastore_name: vmfs02-Do-Reservation
+        # - compute_cluster_name: "IL Main Cluster\esxi-01.qualisystems.local"
+        - networks: "LAB/Do.(85)"
+        - wait_for_ip: 120
+        - wait_for_net: 120
+        - VM_username: Administrator
+        - VM_password: Password1
+        # - qualix_ip: '{{ .params.default_qualix_ip }}'
+        - qualix_ip: '192.168.42.238'
+      tags:
+        auto-tag: false  
+      outputs:
+      - qualix_link
+      - vsphere_virtual_machine_default_ip_address
+      - vsphere_virtual_machine_name
