@@ -24,6 +24,9 @@ grains:
       agent:
         name: vcenter3
       inputs:
+        - hostname: '{{ .params.vcenter_hostname }}'
+        - username: '{{ .params.vcenter_username }}'
+        - password: '{{ .params.vcenter_password }}'
         - virtual_machine_template_name: Do-Template-Windows-Server-2022
         - virtual_machine_name: "TorqueTestVM-{{ sandboxid }}"
         - datacenter_name: IL Datacenter
