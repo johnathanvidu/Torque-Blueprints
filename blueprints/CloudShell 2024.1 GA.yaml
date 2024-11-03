@@ -17,10 +17,10 @@ grains:
     kind: terraform
     spec:
       source:
-        store: Torque-Assets
+        store: bps
         path: terraform/vm-from-template-wait-for-ip-no-creds
       agent:
-        name: vcenter3
+        name: vido-agent
       inputs:
         - hostname: '{{ .params.vcenter_hostname }}'
         - username: '{{ .params.vcenter_username }}'
